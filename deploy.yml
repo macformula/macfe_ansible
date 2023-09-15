@@ -9,7 +9,7 @@
       file:
         path: "/opt/macfe/{{ item }}"
         state: directory
-        mode: '0777'
+        mode: '0770'
       with_items:
         - ""
         - "bin"
@@ -19,14 +19,14 @@
       file:
         path: "/opt/macfe"
         state: directory
-        mode: '0777'
+        mode: '0770'
 
     - name: Set permissions for /opt/macfe/bin directory
       become_user: root
       file:
         path: "/opt/macfe/bin"
         state: directory
-        mode: '0777'
+        mode: '0770'
 
     - name: Install golang-go package
       become_user: root
@@ -35,7 +35,7 @@
         state: present
 
     - name: Copy hello.go to the server
-      become_user: user  # Change 'user' to the appropriate SSH username
+      become_user: root
       copy:
         src: "/mnt/c/Users/hadyi/Documents/coding/formula/go/hello.go"
         dest: "/opt/macfe/bin/hello.go"
