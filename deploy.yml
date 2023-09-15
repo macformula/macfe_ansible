@@ -1,0 +1,63 @@
+---
+- name: Deploy Application on Remote Server
+  hosts: macfe
+  become: yes  # Enable privilege escalation using sudo
+
+  tasks:
+    - name: Create directories
+      become_user: root
+      file:
+        path: "/opt/macfe/{{ item }}"
+        state: directory
+        mode: '0777'
+      with_items:
+        - ""
+        - "bin"
+
+    - name: Set permissions for /opt/macfe directory
+      become_user: root
+      file:
+        path: "/opt/macfe"
+        state: directory
+        mode: '0777'
+
+    - name: Set permissions for /opt/macfe/bin directory
+      become_user: root
+      file:
+        path: "/opt/macfe/bin"
+        state: directory
+        mode: '0777'
+
+    - name: Install golang-go package
+      become_user: root
+      apt:
+        name: golang-go
+        state: present
+
+    - name: Copy hello.go to the server
+      become_user: user  # Change 'user' to the appropriate SSH username
+      copy:
+        src: "/mnt/c/Users/hadyi/Documents/coding/formula/go/hello.go"
+        dest: "/opt/macfe/bin/hello.go"
+
+    - name: Initialize Go module
+      become_user: root
+      command: chdir=/opt/macfe/bin go mod init hello
+      register: scriptoutput
+      failed_when: scriptoutput.rc != 0 and  "/opt/macfe/bin/go.mod already exists" not in scriptoutput.stderr
+
+    - name: "Message: go.mod already exists"
+      debug:
+        var: scriptoutput
+      when: scriptoutput.rc != 0 and  "/opt/macfe/bin/go.mod already exists" in scriptoutput.stderr
+
+    - name: Install go-rpio package
+      become_user: root
+      command: chdir=/opt/macfe/bin go get github.com/stianeikeland/go-rpio/v4
+
+    - name: Build hello.go
+      become_user: root
+      command: chdir=/opt/macfe/bin go build hello.go
+
+    - name: Run the hello executable
+      command: "chdir=/opt/macfe/bin ./hello"
