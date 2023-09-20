@@ -1,5 +1,5 @@
 [macfe]
-macformula ansible_ssh_user=user ansible_ssh_host=172.17.56.135
+macformula ansible_ssh_user=user ansible_ssh_host=172.17.56.69
 
 # This is the default ansible 'hosts' file.
 #
