@@ -1,0 +1,2 @@
+[macfe]
+macformula ansible_ssh_user=user ansible_ssh_host=172.26.187.66
