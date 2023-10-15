@@ -13,3 +13,13 @@
 - Test that you can ping the raspberry pi with:
   - ansible -u user all -m ping --ask-pass
 - run `ansible-playbook -i hosts deploy.yml --ask-become-pass`
+
+## Getting Started
+- Clone the repository
+  - `git clone https://github.com/macformula/macfe_ansible.git`
+- Setup Git configurations
+  - In the working directory of the repo, run the below commands
+    
+    `git config core.eol lf`
+    
+    `git config core.autocrlf input`
