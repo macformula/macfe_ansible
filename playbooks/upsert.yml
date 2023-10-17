@@ -1,0 +1,8 @@
+---
+- name: Add or update any config files on the system
+  hosts: macfe
+  become: yes  # Enable privilege escalation using sudo
+
+    tasks:
+    - name: Add 2-CH CAN Hat overlays to the system
+      script: ../roles/config/can_overlay.sh
