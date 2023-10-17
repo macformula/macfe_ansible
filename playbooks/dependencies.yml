@@ -1,0 +1,9 @@
+---
+- name: Install all dependencies
+  hosts: macfe
+  become: yes  # Enable privilege escalation using sudo
+  gather_facts: yes
+
+  tasks:
+    - name: Run the go_install.sh script
+      shell: ../roles/go/go_install.sh
