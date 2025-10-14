@@ -1,0 +1,12 @@
+{% for dev in socketcan_config %}
+{% if 'id_path' in dev %}
+{% set pattern = 'ENV{ID_PATH}=="' + dev.id_path + '"' %}
+{% else %}
+{% set pattern = 'KERNEL=="' + dev.name + '"' %}
+{% endif %}
+{% set bitopts = 'bitrate' + dev.bitrate|string %}
+{% if 'dbitrate' in dev %}
+{% set bitopts = bitopts + ' dbitrate ' + dev.dbitrate|string %}
+{% endif %}
+SUBSYSTEM=="net", ACTION=="add", {{pattern}}, RUN+="/usr/bin/ip link set $name txqueuelen {{ dev.get('txqueuelen', 2000) }}", RUN+="/usr/bin/ip link set $name type can {{ bitopts }} restart-ms {{ dev.get('restartms', 50 )}}", RUN+="/usr/bin/ip link set $name name {{ dev.name }}", RUN+="/usr/bin/ip link set {{ dev.name }} up"
+{% endfor %}
