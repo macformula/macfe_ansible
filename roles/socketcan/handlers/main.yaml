@@ -1,0 +1,5 @@
+---
+- name: reload udev rules
+  ansible.builtin.shell:
+    cmd: "udevadm control --reload && udevadm trigger"
+  become: true

@@ -1,0 +1,5 @@
+---
+- name: Reboot system
+  ansible.builtin.reboot:
+    msg: "Modified config.txt, rebooting"
+    reboot_timeout: 200
