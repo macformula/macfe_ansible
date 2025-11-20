@@ -13,3 +13,13 @@
   community.general.modprobe:
     name: mcp251x
     state: present
+
+- name: Create CAN modules config file
+  ansible.builtin.copy:
+    content: |
+      # CAN kernel modules for MACFE
+      can
+      can_raw
+      mcp251x
+    dest: /etc/modules-load.d/can.conf
+    mode: '0644'

@@ -1,3 +1,9 @@
 ---
-ansible_user: ubuntu
+ansible_user: macformula
 ansible_python_interpreter: /usr/bin/python3
+
+socketcan_config:
+  - name: can0
+    bitrate: 500000
+  - name: can1
+    bitrate: 500000

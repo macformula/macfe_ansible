@@ -27,5 +27,5 @@ A virtual environment is recommended.
 
 Run the main playbook:
 ```bash
-ansible-playbook -i hosts site.yaml
+ansible-playbook -i inventory site.yaml
 ```
