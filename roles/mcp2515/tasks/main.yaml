@@ -1,0 +1,36 @@
+---
+- name: Configure device tree overlays
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Add spi device tree overlay
+      ansible.builtin.lineinfile:
+        path: /boot/firmware/config.txt
+        regexp: '^#?dtparam=spi='
+        line: 'dtparam=spi=on'
+        state: present
+        backrefs: yes
+      notify: Reboot system
+
+    - name: Add mcp2515 device tree overlay for can0
+      ansible.builtin.lineinfile:
+        path: /boot/firmware/config.txt
+        line: 'dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=25'
+        state: present
+        backrefs: yes
+      notify: Reboot system
+
+    - name: Add mcp2515 device tree overlay for can1
+      ansible.builtin.lineinfile:
+        path: /boot/firmware/config.txt
+        line: 'dtoverlay=mcp2515-can1,oscillator=16000000,interrupt=24'
+        state: present
+      notify: Reboot system
+
+  handlers:
+    - name: Reboot system
+      ansible.builtin.reboot:
+        msg: "Modified config.txt, rebooting"
+        reboot_timeout: 200

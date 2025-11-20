@@ -1,0 +1,21 @@
+---
+- name: Load or unload kernel modules
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Add the can module
+      community.general.modprobe:
+        name: can
+        state: present
+
+    - name: Add the can module
+      community.general.modprobe:
+        name: can_raw
+        state: present
+
+    - name: Add the can module
+      community.general.modprobe:
+        name: mcp251x
+        state: present
